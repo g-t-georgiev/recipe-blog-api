@@ -64,7 +64,17 @@ const register = async function (req, res, next) {
 
 const logout = async function (req, res, next) {
     try {
+        let { user } = req;
+
+        if (!user) {
+            error = new Error('Invalid token.');
+            error.statusCode = 401;
+            throw error;
+        }
         
+        await authService.logout(user?.id);
+        res.clearCookie(AUTH_COOKIE);
+        res.status(204).json();
     } catch (error) {
         next(error);
     }
