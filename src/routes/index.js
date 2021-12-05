@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const dataController = require('../controllers/dataController');
-const userController = require('../controllers/userController');
+const authController = require('../controllers/authController');
 
 router.use('/data', dataController);
-router.use('/user', userController);
+router.use('/auth', authController);
 
 module.exports = router;
