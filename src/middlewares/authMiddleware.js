@@ -17,9 +17,9 @@ module.exports = async function (req, res, next) {
     } catch (error) {
         if (['TokenExpiredError', 'JsonWbTokenError'].includes(error.constructor.name)) {
             error.statusCode = 401;
-            res.clearCookie(AUTH_COOKIE);
         }
 
+        res.clearCookie(AUTH_COOKIE);
         next(error);
     }
 }
