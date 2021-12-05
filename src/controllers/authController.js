@@ -34,7 +34,29 @@ const login = async function (req, res, next) {
 
 const register = async function (req, res, next) {
     try {
-        
+        let {
+            user,
+            body: {
+                username,
+                email,
+                password,
+                confirmPassword
+            }
+        } = req;
+
+        if (user) {
+            error = new Error('You are already logged in.');
+            error.statusCode = 403;
+            throw error;
+        }
+
+        username = username?.trim() ?? '';
+        email = email?.trim() ?? '';
+        password = password?.trim() ?? '';
+        confirmPassword = confirmPassword?.trim() ?? '';
+
+        await authService.register(username, email, password, confirmPassword);
+        res.status(204).json();
     } catch (error) {
         next(error);
     }
