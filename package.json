@@ -1,0 +1,21 @@
+{
+  "name": "recipe-blog-api",
+  "version": "1.0.0",
+  "description": "REST service for a student react project.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/g-t-georgiev/recipe-blog-api.git"
+  },
+  "keywords": [],
+  "author": "Georgi Georgiev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/g-t-georgiev/recipe-blog-api/issues"
+  },
+  "homepage": "https://github.com/g-t-georgiev/recipe-blog-api#readme"
+}
