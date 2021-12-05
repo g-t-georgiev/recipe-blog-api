@@ -40,6 +40,8 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.statics.verifyPassword = function (password) {
+    console.log('Provided password: ' + password);
+    console.log('Hashed password of user: ' + this.password);
     return bcrypt.compare(password, this.password);
 }
 
