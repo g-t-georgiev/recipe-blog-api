@@ -57,16 +57,10 @@ const login = async function (email, password) {
     return user;
 }
 
-const register = async function (username, email, password, confirmedPassword) {
+const register = async function (username, email, password) {
     if (!username || !email || !password) {
         error = new Error('All fields are required.');
         error.statusCode = 400;
-        throw error;
-    }
-
-    if (password !== confirmedPassword) {
-        error = new Error('Passwords do not match.');
-        error.statusCode = 404;
         throw error;
     }
 
