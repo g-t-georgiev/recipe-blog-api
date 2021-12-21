@@ -39,8 +39,7 @@ const register = async function (req, res, next) {
             body: {
                 username,
                 email,
-                password,
-                confirmPassword
+                password
             }
         } = req;
 
@@ -53,10 +52,9 @@ const register = async function (req, res, next) {
         username = username?.trim() ?? '';
         email = email?.trim() ?? '';
         password = password?.trim() ?? '';
-        confirmPassword = confirmPassword?.trim() ?? '';
 
-        await authService.register(username, email, password, confirmPassword);
-        res.status(204).json();
+        await authService.register(username, email, password);
+        res.status(201).json();
     } catch (error) {
         next(error);
     }
