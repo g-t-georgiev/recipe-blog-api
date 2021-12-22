@@ -1,4 +1,4 @@
-module.exports = function (error, req, res) {
+module.exports = function (error, req, res, next) {
     if (error) {
         const errorData = { message: '', multiple: false };
 

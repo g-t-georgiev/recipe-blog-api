@@ -21,21 +21,6 @@ const createToken = function ({ username, email, _id: id }, secretKey, options =
 
 const verifyToken = async function (token, secretKey, options = {}) {
     const payload = await jwt.verify(token, secretKey, options);
-    
-    const user = await User.findById(payload.id);
-
-    if (!user) {
-        error = new Error('Error fetching data from database.');
-        error.statusCode = 500;
-        throw error;
-    }
-
-    if (payload.iat <= user._lastLoggedIn) {
-        error = new Error('invalid token.');
-        error.statusCode = 401;
-        throw error;
-    }
-
     return payload;
 }
 
@@ -47,8 +32,9 @@ const login = async function (email, password) {
     }
 
     let user = await User.findOne({ email });
+    const isPasswordValid = await User.verifyPassword(password, user.password);
     
-    if (!user && !await User.verifyPassword(password)) {
+    if (!user || !isPasswordValid) {
         error = new Error('Incorrect email or password.');
         error.statusCode = 401;
         throw error;
@@ -64,7 +50,7 @@ const register = async function (username, email, password) {
         throw error;
     }
 
-    let user = await User.find({ username, email });
+    let user = await User.findOne({ username, email });
 
     if (user) {
         error = new Error('Username or email already taken.');
@@ -82,7 +68,7 @@ const logout = function (userId) {
         throw error;
     }
 
-    return User.findByIdAndUpdate(userId, { _lastLoggedIn: Date.now() }, { new: true, lean: true, select: { password: 0 }});
+    return User.findById(userId);
 }
 
 module.exports = {

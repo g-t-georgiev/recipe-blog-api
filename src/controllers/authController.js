@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const authService = require('../services/authService');
-const { AUTH_TOKEN_SECRET, AUTH_COOKIE } = require('../constants');
+const { AUTH_TOKEN_SECRET } = require('../constants');
 
 let error;
 
@@ -24,9 +24,9 @@ const login = async function (req, res, next) {
         password = password?.trim() ?? '';
 
         const userData = await authService.login(email, password);
-        const accessToken = await authService.createToken(userData, AUTH_TOKEN_SECRET, { expiresIn: '1d' });
-        res.cookie(AUTH_COOKIE, accessToken);
-        res.status(200).json({ id: userData._id, username: userData.username, email: userData.email });
+        const accessToken = await authService.createToken(userData, AUTH_TOKEN_SECRET);
+
+        res.status(200).json({ id: userData._id, username: userData.username, email: userData.email, accessToken });
     } catch (error) {
         next(error);
     }
@@ -70,8 +70,7 @@ const logout = async function (req, res, next) {
             throw error;
         }
         
-        await authService.logout(user?.id);
-        res.clearCookie(AUTH_COOKIE);
+        await authService.logout(user.id);
         res.status(204).json();
     } catch (error) {
         next(error);
