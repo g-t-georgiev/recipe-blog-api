@@ -5,13 +5,16 @@ const recipeService = require('../services/recipeService');
 let error;
 
 const getAll = async function (req, res, next) {
-    const { 
-        user, 
-        query 
-    } = req;
-
     try {
-        const recipes = await recipeService.get();
+        const { 
+            user, 
+            query
+        } = req;
+
+        const filter  = { ...query }; 
+        // filter by category, ...
+
+        const recipes = await recipeService.get(filter);
         res.status(200).json(recipes);
     } catch (error) {
         next(error);
@@ -19,15 +22,14 @@ const getAll = async function (req, res, next) {
 };
 
 const getOne = async function (req, res, next) {
-    const { 
-        user, 
-        query, 
-        params: {
-            recipeId
-        }
-    } = req;
-
     try {
+        const { 
+            user, 
+            params: {
+                recipeId
+            }
+        } = req;
+
         const recipe = await recipeService.getById(recipeId);
         res.status(200).json(recipe);
     } catch (error) {
@@ -36,22 +38,22 @@ const getOne = async function (req, res, next) {
 };
 
 const createOne = async function (req, res, next) {
-    const {
-        user,
-        body: {
-            title,
-            description,
-            category,
-            imageUrl
-        }
-    } = req;
-
-    title = title?.trim() ?? '';
-    description = description?.trim() ?? '';
-    category = category?.trim() ?? '';
-    imageUrl = imageUrl?.trim() ?? '';
-
     try {
+        const {
+            user,
+            body: {
+                title,
+                description,
+                category,
+                imageUrl
+            }
+        } = req;
+    
+        title = title?.trim() ?? '';
+        description = description?.trim() ?? '';
+        category = category?.trim() ?? '';
+        imageUrl = imageUrl?.trim() ?? '';
+
         if (!user) {
             error = new Error('You are not authorized to create new recipes.');
             error.statusCode = 403;
@@ -66,25 +68,25 @@ const createOne = async function (req, res, next) {
 };
 
 const updateOne = async function (req, res, next) {
-    const {
-        user,
-        body: {
-            title,
-            description,
-            category,
-            imageUrl
-        }, 
-        params: {
-            recipeId
-        }
-    } = req;
-
-    title = title?.trim() ?? '';
-    description = description?.trim() ?? '';
-    category = category?.trim() ?? '';
-    imageUrl = imageUrl?.trim() ?? '';
-
     try {
+        const {
+            user,
+            body: {
+                title,
+                description,
+                category,
+                imageUrl
+            }, 
+            params: {
+                recipeId
+            }
+        } = req;
+    
+        title = title?.trim() ?? '';
+        description = description?.trim() ?? '';
+        category = category?.trim() ?? '';
+        imageUrl = imageUrl?.trim() ?? '';
+
         if (!user) {
             error = new Error('You are not authorized to update this recipe.');
             error.statusCode = 403;
@@ -99,14 +101,14 @@ const updateOne = async function (req, res, next) {
 };
 
 const deleteOne = async function (req, res, next) {
-    const {
-        user,
-        params: {
-            recipeId
-        }
-    } = req;
-
     try {
+        const {
+            user,
+            params: {
+                recipeId
+            }
+        } = req;
+        
         await recipeService.delete(recipeId);
         res.status(204).json();
     } catch (error) {
