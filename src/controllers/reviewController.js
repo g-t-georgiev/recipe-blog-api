@@ -142,5 +142,8 @@ router.put('/:reviewId', updateOne);
 router.delete('/:reviewId', deleteOne);
 router.get('/', getAll);
 router.post('/', create);
+router.get('*', function (req, res) {
+    res.status(404).json({ message: 'Page not found.' });
+});
 
 module.exports = router;

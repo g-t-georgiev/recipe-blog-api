@@ -24,5 +24,8 @@ const getOne = async function (req, res, next) {
 
 router.get('/', getAll);
 router.get('/:categoryId', getOne);
+router.get('*', function (req, res) {
+    res.status(404).json({ message: 'Page not found.' });
+});
 
 module.exports = router;

@@ -121,5 +121,8 @@ router.post('/', createOne);
 router.get('/:recipeId', getOne);
 router.put('/:recipeId', updateOne);
 router.delete('/:recipeId', deleteOne);
+router.get('*', function (req, res) {
+    res.status(404).json({ message: 'Page not found.' });
+});
 
 module.exports = router;

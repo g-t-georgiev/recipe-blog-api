@@ -80,5 +80,8 @@ const logout = async function (req, res, next) {
 router.post('/login', login);
 router.post('/register', register);
 router.delete('/logout', logout);
+router.get('*', function (req, res) {
+    res.status(404).json({ message: 'Page not found.' });
+});
 
 module.exports = router;

@@ -126,5 +126,8 @@ router.get('/:userId/favorites', getFavorites);
 router.post('/:userId/favorites', addFavorite);
 router.delete('/:userId/favorites', removeFavorite);
 router.get('/:userId/recipes', getRecipes);
+router.get('*', function (req, res) {
+    res.status(404).json({ message: 'Page not found.' });
+});
 
 module.exports = router;
