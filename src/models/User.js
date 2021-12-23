@@ -19,7 +19,13 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'Password is required.'],
         min: [6, 'Password should be at least 6 characters long.']
-    }
+    },
+    favorites: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'Recipe'
+        }
+    ]
 }, 
 { 
     timestamps: true
