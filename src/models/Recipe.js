@@ -26,12 +26,6 @@ const recipeSchema = new Schema({
         required: true,
         ref: 'User'
     },
-    likes: [
-        {
-            type: mongoose.Types.ObjectId,
-            ref: 'User'
-        }
-    ],
     reviews: [
         {
             type: mongoose.Types.ObjectId,
