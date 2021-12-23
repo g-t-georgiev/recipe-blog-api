@@ -108,7 +108,7 @@ const updateOne = async function (req, res, next) {
             throw error;
         }
 
-        const review = await reviewService.update(reviewId, { comment, rating });
+        const review = await reviewService.update(reviewId, { comment, rating }, { runValidators: true });
         res.status(200).json(review);
     } catch (error) {
         next(error);
