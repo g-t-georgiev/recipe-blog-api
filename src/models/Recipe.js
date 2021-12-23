@@ -12,9 +12,8 @@ const recipeSchema = new Schema({
         required: [true, 'Description is required.']
     },
     category: {
-        type: mongoose.Types.ObjectId,
-        required: true,
-        ref: 'Category'
+        type: String,
+        required: [true, 'Category is required.']
     },
     imageUrl: {
         type: String,
