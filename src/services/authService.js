@@ -1,8 +1,6 @@
 const User = require('../models/User');
 const jwt = require('../utils/jwt');
 
-let error;
-
 const createToken = function ({ username, email, _id: id }, secretKey, options = {}) {
     if (!username || !email || !id || !secretKey) {
         error = new Error('Invalid data: payload claims and secret key are required.');
@@ -25,16 +23,21 @@ const verifyToken = async function (token, secretKey, options = {}) {
 }
 
 const login = async function (email, password) {
-    if (!email || !password) {
-        error = new Error('Email and password are required.');
+    if (!email) {
+        error = new Error('Email is required.');
+        error.statusCode = 400;
+        throw error;
+    }
+
+    if (!password) {
+        error = new Error('Password is required.');
         error.statusCode = 400;
         throw error;
     }
 
     let user = await User.findOne({ email });
-    const isPasswordValid = await User.verifyPassword(password, user.password);
     
-    if (!user || !isPasswordValid) {
+    if (!user || !await User.verifyPassword(password, user.password)) {
         error = new Error('Incorrect email or password.');
         error.statusCode = 401;
         throw error;
@@ -44,8 +47,20 @@ const login = async function (email, password) {
 }
 
 const register = async function (username, email, password) {
-    if (!username || !email || !password) {
-        error = new Error('All fields are required.');
+    if (!username) {
+        error = new Error('Username is required.');
+        error.statusCode = 400;
+        throw error;
+    }
+
+    if (!email) {
+        error = new Error('Email is required.');
+        error.statusCode = 400;
+        throw error;
+    }
+
+    if (!password) {
+        error = new Error('Password is required.');
         error.statusCode = 400;
         throw error;
     }
