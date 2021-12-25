@@ -15,6 +15,16 @@ module.exports = function (error, req, res, next) {
 
                 errorData.message = messages.join(' ');
             }
+        } else if (['MongoServerError'].includes(error.constructor.name)) {
+            if (error.code === 11000) {
+                error.statusCode = 409;
+                let duplicateKeys = Object.keys(error.keyPattern);
+                let message = duplicateKeys.join(' or ') + ' already taken.';
+                message = message[0].toUpperCase() + message.slice(1);
+                errorData.message = message;
+            } else {
+                errorData.message = error.message;
+            }
         } else {
             errorData.message = error.message;
         }
