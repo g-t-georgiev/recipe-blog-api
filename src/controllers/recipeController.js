@@ -15,7 +15,7 @@ const getAll = async function (req, res, next) {
         // filter by category, ...
         // console.log(filter);
 
-        const recipes = await recipeService.get(filter, { title: 1, imageUrl: 1, category: 1, author: 1 }, { populate: { path: 'author', select: { username: 1 } } }) ?? [];
+        const recipes = await recipeService.get(filter, { title: 1, imageUrl: 1, category: 1, author: 1 }) ?? [];
         // console.log(recipes);
         res.status(200).json(recipes);
     } catch (error) {
