@@ -26,7 +26,15 @@ const recipeSchema = new Schema({
         ref: 'User'
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    toJSON: true,
+    toObject: true
+});
+
+recipeSchema.virtual('rating', {
+        ref: 'Review',
+        localField: '_id',
+        foreignField: 'recipe'
 });
 
 const Recipe = model('Recipe', recipeSchema);
