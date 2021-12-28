@@ -37,6 +37,13 @@ recipeSchema.virtual('rating', {
     foreignField: 'recipe'
 });
 
+recipeSchema.virtual('reviewCount', {
+    ref: 'Review',
+    localField: '_id',
+    foreignField: 'recipe',
+    count: true
+});
+
 const Recipe = model('Recipe', recipeSchema);
 
 module.exports = Recipe;
