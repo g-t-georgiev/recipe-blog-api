@@ -13,8 +13,10 @@ const getAll = async function (req, res, next) {
 
         const filter  = { ...query }; 
         // filter by category, ...
+        // console.log(filter);
 
-        const recipes = await recipeService.get(filter);
+        const recipes = await recipeService.get(filter) ?? [];
+        // console.log(recipes);
         res.status(200).json(recipes);
     } catch (error) {
         next(error);
