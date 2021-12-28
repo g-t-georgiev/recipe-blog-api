@@ -13,10 +13,9 @@ const getAll = async function (req, res, next) {
 
         const filter  = { ...query }; 
         // filter by category, ...
-        // console.log(filter);
 
         const recipes = await recipeService.get(filter, { title: 1, imageUrl: 1, category: 1, author: 1 }) ?? [];
-        // console.log(recipes);
+        console.log(recipes);
         res.status(200).json(recipes);
     } catch (error) {
         next(error);
@@ -41,7 +40,7 @@ const getOne = async function (req, res, next) {
 
 const createOne = async function (req, res, next) {
     try {
-        const {
+        let {
             user,
             body: {
                 title,
@@ -71,7 +70,7 @@ const createOne = async function (req, res, next) {
 
 const updateOne = async function (req, res, next) {
     try {
-        const {
+        let {
             user,
             body: {
                 title,
