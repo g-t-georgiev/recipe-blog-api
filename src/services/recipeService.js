@@ -2,7 +2,10 @@ const Recipe = require('../models/Recipe');
 
 module.exports = {
     get(filter = {}, projections = {}, options = {}) {
-        return Recipe.findOne(filter, { ...projections }, { ...options });
+        return Recipe
+            .findOne(filter, { ...projections }, { ...options })
+            .populate({ path: 'author', select: 'username' })
+            .populate({ path: 'rating', select: 'rating recipe' });
     },
     getById(id, projections = {}, options = {}) {
         return Recipe.findById(id, { ...projections }, { ...options });
