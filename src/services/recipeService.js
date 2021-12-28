@@ -5,7 +5,8 @@ module.exports = {
         return Recipe
             .findOne(filter, { ...projections }, { ...options })
             .populate({ path: 'author', select: 'username' })
-            .populate({ path: 'rating', select: 'rating recipe' });
+            .populate({ path: 'rating', select: 'rating recipe' })
+            .populate({ path: 'reviewCount', select: 'rating recipe' });
     },
     getById(id, projections = {}, options = {}) {
         return Recipe.findById(id, { ...projections }, { ...options });
