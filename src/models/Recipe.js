@@ -27,14 +27,14 @@ const recipeSchema = new Schema({
     }
 }, {
     timestamps: true,
-    toJSON: true,
-    toObject: true
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 });
 
 recipeSchema.virtual('rating', {
-        ref: 'Review',
-        localField: '_id',
-        foreignField: 'recipe'
+    ref: 'Review',
+    localField: '_id',
+    foreignField: 'recipe'
 });
 
 const Recipe = model('Recipe', recipeSchema);
