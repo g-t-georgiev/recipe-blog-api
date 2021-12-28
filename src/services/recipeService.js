@@ -3,13 +3,16 @@ const Recipe = require('../models/Recipe');
 module.exports = {
     get(filter = {}, projections = {}, options = {}) {
         return Recipe
-            .findOne(filter, { ...projections }, { ...options })
+            .find(filter, { ...projections }, { ...options })
             .populate({ path: 'author', select: 'username' })
             .populate({ path: 'rating', select: 'rating recipe' })
             .populate({ path: 'reviewCount', select: 'rating recipe' });
     },
     getById(id, projections = {}, options = {}) {
-        return Recipe.findById(id, { ...projections }, { ...options });
+        return Recipe.findById(id, { ...projections }, { ...options })
+            .populate({ path: 'author', select: 'username' })
+            .populate({ path: 'rating', select: 'rating recipe' })
+            .populate({ path: 'reviewCount', select: 'rating recipe' });
     },
     create(title, description, category, imageUrl, author) {
         return Recipe.create({ title, description, category, imageUrl, author });
