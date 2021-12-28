@@ -11,8 +11,8 @@ const getAll = async function (req, res, next) {
             query
         } = req;
 
-        const filter  = { ...query }; 
-        // filter by category, ...
+        const filter  = { ...query, ...(user ? { author: { $ne: user.id } } : {}) }; 
+        // filter by category, page, items to display, etc.
 
         const recipes = await recipeService.get(filter, { title: 1, imageUrl: 1, category: 1, author: 1 }) ?? [];
         console.log(recipes);
@@ -94,7 +94,15 @@ const updateOne = async function (req, res, next) {
             throw error;
         }
 
-        let recipe = await recipeService.update(recipeId, { title, description, category, imageUrl }, { runValidators: true });
+        let recipe = await recipeService.getById(recipeId);
+
+        if (recipe.author._id.toString() !== user.id) {
+            error = new Error('You are not authorized to update this recipe.');
+            error.statusCode = 403;
+            throw error;
+        }
+
+        recipe = await recipeService.update(recipeId, { title, description, category, imageUrl }, { runValidators: true });
         res.status(200).json(recipe);
     } catch (error) {
         next(error);
@@ -109,6 +117,14 @@ const deleteOne = async function (req, res, next) {
                 recipeId
             }
         } = req;
+
+        let recipe = await recipeService.getById(recipeId);
+
+        if (recipe.author._id.toString() !== user.id) {
+            error = new Error('You are not authorized to update this recipe.');
+            error.statusCode = 403;
+            throw error;
+        }
         
         await recipeService.delete(recipeId);
         res.status(204).json();
