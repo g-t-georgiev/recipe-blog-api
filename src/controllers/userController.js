@@ -31,7 +31,7 @@ const getFavorites = async function (req, res, next) {
 
         if (recipeId) {
             const isFavorite = await userService.isFavorite(userId, recipeId);
-            console.log(isFavorite);
+            // console.log(isFavorite);
             res.status(200).json(isFavorite);
             return;
         }
