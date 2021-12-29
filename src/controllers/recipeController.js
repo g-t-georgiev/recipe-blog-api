@@ -15,7 +15,6 @@ const getAll = async function (req, res, next) {
         // filter by category, page, items to display, etc.
 
         const recipes = await recipeService.get(filter, { title: 1, imageUrl: 1, category: 1, author: 1 }) ?? [];
-        console.log(recipes);
         res.status(200).json(recipes);
     } catch (error) {
         next(error);
