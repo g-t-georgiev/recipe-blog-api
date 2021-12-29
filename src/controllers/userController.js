@@ -128,7 +128,8 @@ const getRecipes = async function (req, res, next) {
             throw error;
         }
 
-        const recipes = (await userService.getRecipes(userId)) ?? [];
+        const recipes = await userService.getRecipes(userId);
+        console.log(recipes);
         res.status(200).json(recipes);
     } catch (error) {
         next(error);
