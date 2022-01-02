@@ -17,8 +17,11 @@ module.exports = {
     create(title, description, category, imageUrl, author) {
         return Recipe.create({ title, description, category, imageUrl, author });
     },
-    update(id, data, options = {}) {
-        return Recipe.findByIdAndUpdate(id, data, { ...options });
+    async update(id, data, options = {}) {
+        return Recipe.findByIdAndUpdate(id, data, { ...options })
+            .populate({ path: 'author', select: 'username' })
+            .populate({ path: 'rating', select: 'rating recipe' })
+            .populate({ path: 'reviewCount', select: 'rating recipe' });
     },
     delete(id, options = {}) {
         return Recipe.findByIdAndDelete(id, { ...options });
