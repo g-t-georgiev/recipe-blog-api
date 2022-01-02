@@ -101,7 +101,8 @@ const updateOne = async function (req, res, next) {
             throw error;
         }
 
-        recipe = await recipeService.update(recipeId, { title, description, category, imageUrl }, { runValidators: true });
+        recipe = await recipeService.update(recipeId, { title, description, category, imageUrl }, { runValidators: true, new: true });
+        
         res.status(200).json(recipe);
     } catch (error) {
         next(error);
